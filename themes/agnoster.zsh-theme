@@ -208,6 +208,11 @@ prompt_status() {
   [[ $RETVAL -ne 0 ]] && symbols+="%{%F{red}%}✘"
   [[ $UID -eq 0 ]] && symbols+="%{%F{yellow}%}⚡"
   [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{%F{cyan}%}⚙"
+  if [[ -d ./.vagrant ]]; then
+    if [[ $(vagrant status | grep -c running) -gt 0 ]]; then
+      symbols+="%{%F{red}%}⚙"
+    fi
+  fi
 
   [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
 }
